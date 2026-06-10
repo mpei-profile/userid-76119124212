@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Электронная информационно-образовательная среда | НИУ "МЭИ"</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    
+    <style>
+        :root {
+            --mpei-blue: #005096;      
+            --mpei-red: #9e1b1b;       
+            --mpei-gray-bg: #f8f9fa;   
+            --border-color: #d1d5db;   
+            --text-black: #111827;     
+            --text-muted: #4b5563;    
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            font-weight: 400;
+        }
+
+        body {
+            background-color: #f0f4f8;
+            color: var(--text-black);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* КОРНЕВЫЕ БЛОКИ ЭКРАНОВ */
+        #login-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            padding: 20px;
+        }
+
+        #lk-screen {
+            display: none; 
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #ffffff;
+        }
+
+        /* СТИЛИ СТРАНИЦЫ ВХОДА */
+        .login-container {
+            background: #ffffff;
+            width: 100%;
+            max-width: 420px;
+            padding: 40px 35px;
+            border-radius: 4px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border-top: 5px solid var(--mpei-blue);
+            text-align: center;
+        }
+
+        .login-logo {
+            height: 65px;
+            margin-bottom: 25px;
+        }
+
+        .login-title {
+            font-size: 1.3rem;
+            color: var(--mpei-blue);
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 3px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--mpei-blue);
+        }
+
+        .error-message {
+            color: var(--mpei-red);
+            font-size: 0.85rem;
+            margin-top: -10px;
+            margin-bottom: 15px;
+            text-align: left;
+            display: none;
+            font-weight: 500;
+        }
+
+        .btn-login-submit {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--mpei-blue);
+            color: #ffffff;
+            border: none;
+            border-radius: 3px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-login-submit:hover {
+            background-color: #003d73;
+        }
+
+        .login-footer-text {
+            margin-top: 25px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .login-footer-text a {
+            color: var(--mpei-blue);
+            text-decoration: none;
+        }
+
+        /* СТИЛИ ЛИЧНОГО КАБИНЕТА */
+        .top-header {
+            background: #ffffff;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            gap: 20px;
+        }
+
+        .logo-link {
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+
+        .logo-link:hover {
+            transform: scale(1.02);
+        }
+
+        .mpei-logo-img {
+            height: 55px;
+            width: auto;
+            display: block;
+            cursor: pointer;
+        }
+
+        .user-block {
+            text-align: right;
+            font-size: 0.9rem;
+            border-left: 2px solid var(--border-color);
+            padding-left: 20px;
+        }
+
+        .user-name { font-weight: 600; color: var(--mpei-blue); }
+        .user-group { color: var(--text-muted); margin-top: 2px; }
+        .main-nav { background-color: var(--mpei-blue); }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+        }
+
+        .nav-links { display: flex; list-style: none; }
+        .nav-links button {
+            display: block;
+            padding: 16px 24px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 0.95rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .nav-links button:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .nav-links li.active button {
+            background-color: rgba(0, 0, 0, 0.2);
+            font-weight: 600;
+            box-shadow: inset 0 -4px 0 #ffffff;
+        }
+
+        .btn-logout {
+            background: none;
+            border: 1px solid rgba(255,255,255,0.4);
+            color: white;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 2px;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .btn-logout:hover {
+            background: #ffffff;
+            color: var(--mpei-blue);
+            border-color: #ffffff;
+        }
+
+        .main-wrapper {
+            max-width: 1200px;
+            width: 100%;
+            margin: 30px auto;
+            padding: 0 40px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        main {
+            width: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: 2px;
+            padding: 35px;
+            background: #ffffff;
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .page-title {
+            color: var(--mpei-blue);
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--mpei-gray-bg);
+            padding-bottom: 12px;
+        }
+
+        .semester-selector-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--mpei-gray-bg);
+            padding: 10px 20px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 25px;
+            gap: 15px;
+        }
+
+        .semester-selector { display: flex; gap: 10px; }
+        
+        .academic-year { text-align: right; }
+        .year-select {
+            padding: 6px 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            border-radius: 3px;
+            background-color: #ffffff;
+            outline: none;
+            cursor: pointer;
+        }
+        .year-select:focus {
+            border-color: var(--mpei-blue);
+        }
+
+        .sem-btn {
+            padding: 10px 20px;
+            border: 1px solid var(--border-color);
+            background: #fff;
+            cursor: pointer;
+            font-size: 0.95rem;
+            border-radius: 2px;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .sem-btn.active {
+            background: var(--mpei-blue);
+            color: #ffffff !important;
+            border-color: var(--mpei-blue);
+            font-weight: 600;
+        }
+
+        .semester-content { display: none; }
+        .semester-content.active { display: block; }
+
+        .grade-item {
+            font-size: 1.05rem; 
+            padding: 14px 0;    
+            border-bottom: 1px solid var(--border-color); 
+            color: var(--text-black);
+            line-height: 1.5;
+        }
+
+        .grade-item:last-child { border-bottom: none; }
+        .subject-name { font-weight: 600; }
+        .raw-grades { font-weight: 500; margin-left: 5px; }
+
+        /* Стиль для сообщения об отсутствии информации */
+        .empty-year-message {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 1.1rem;
+            color: #9ca3af;
+            font-style: italic;
+            background-color: var(--mpei-gray-bg);
+            border: 1px dashed var(--border-color);
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 18px;
+            margin-top: 20px;
+        }
+        .info-label { font-weight: 600; color: var(--text-muted); }
+
+        footer {
+            background-color: var(--mpei-blue);
+            color: #ffffff;
+            text-align: center;
+            padding: 25px;
+            font-size: 0.85rem;
+            margin-top: auto;
+        }
+
+        footer a { color: #93c5fd; text-decoration: none; font-weight: 600; }
+
+        /* МЕДИАВЫРАЖЕНИЯ ДЛЯ АДАПТИВНОСТИ */
+        @media (max-width: 992px) {
+            .top-header { padding: 15px 20px; }
+            .nav-container { padding: 0 20px; }
+            .main-wrapper { padding: 0 20px; margin: 20px auto; }
+            main { padding: 25px; }
+            .info-grid { grid-template-columns: 180px 1fr; gap: 14px; }
+        }
+
+        @media (max-width: 640px) {
+            .top-header {
+                flex-direction: column;
+                text-align: center;
+                padding: 15px;
+                gap: 12px;
+            }
+            .user-block {
+                text-align: center;
+                border-left: none;
+                border-top: 1px solid var(--border-color);
+                padding-left: 0;
+                padding-top: 12px;
+                width: 100%;
+            }
+
+            .nav-container {
+                flex-direction: column;
+                padding: 10px;
+                gap: 10px;
+            }
+            .nav-links {
+                width: 100%;
+                flex-direction: column;
+                gap: 5px;
+            }
+            .nav-links button {
+                width: 100%;
+                text-align: center;
+                padding: 12px;
+                border-radius: 4px;
+            }
+            .nav-links li.active button {
+                box-shadow: inset 4px 0 0 #ffffff; 
+            }
+            .btn-logout {
+                width: 100%;
+                padding: 12px;
+                text-align: center;
+            }
+
+            main { padding: 20px 15px; }
+            .page-title { font-size: 1.3rem; margin-bottom: 20px; }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            .info-label {
+                margin-bottom: -5px;
+                font-size: 0.9rem;
+            }
+            .info-label:not(:first-child) {
+                margin-top: 10px;
+            }
+
+            .semester-selector-wrapper {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 15px;
+                text-align: center;
+            }
+            .semester-selector {
+                width: 100%;
+            }
+            .sem-btn {
+                flex: 1;
+                text-align: center;
+                padding: 10px 5px;
+                font-size: 0.9rem;
+            }
+            .sem-btn.active {
+                color: #ffffff !important;
+            }
+            .academic-year {
+                text-align: center;
+                font-size: 0.9rem;
+                width: 100%;
+            }
+            .year-select {
+                width: 100%;
+                text-align: center;
+            }
+
+            .grade-item {
+                font-size: 0.95rem;
+                padding: 12px 0;
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+            .raw-grades {
+                margin-left: 0;
+            }
+            
+            .login-container {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="login-screen">
+        <div class="login-container">
+            <img class="login-logo" src="logo.png" alt="НИУ МЭИ">
+            <h2 class="login-title">Вход в личный кабинет</h2>
+            
+            <div id="login-error" class="error-message">Неверный логин или пароль!</div>
+            
+            <div class="form-group">
+                <label for="username">Имя пользователя (Логин)</label>
+                <input type="text" id="username" placeholder="Введите ваш логин">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Пароль</label>
+                <input type="password" id="password" placeholder="Введите ваш пароль">
+            </div>
+            
+            <button class="btn-login-submit" onclick="handleLogin()">Войти</button>
+            
+            <div class="login-footer-text">
+                Если вы забыли пароль или у вас нет учетной записи, обратитесь в <a href="https://mpei.ru/Structure/uchchast/icc/Pages/default.aspx" target="_blank">ИВЦ МЭИ</a>.
+            </div>
+        </div>
+    </div>
+
+
+    <div id="lk-screen">
+        <div class="top-header">
+            <div class="logo-block">
+                <a href="https://mpei.ru/Pages/default.aspx" class="logo-link" title="Перейти на главную НИУ МЭИ">
+                    <img class="mpei-logo-img" src="logo.png" alt="НИУ МЭИ">
+                </a>
+            </div>
+            <div class="user-block">
+                <div class="user-name">Васильев Виктор Александрович</div>
+                <div class="user-group">Группа: ИнЭИ-16-25</div>
+            </div>
+        </div>
+
+        <nav class="main-nav">
+            <div class="nav-container">
+                <ul class="nav-links">
+                    <li id="menu-profile" class="menu-tab active"><button onclick="switchTab('profile', 'menu-profile')">Личные данные</button></li>
+                    <li id="menu-grades" class="menu-tab"><button onclick="switchTab('grades', 'menu-grades')">Оценки по предметам</button></li>
+                    <li id="menu-recordbook" class="menu-tab"><button onclick="switchTab('recordbook', 'menu-recordbook')">Зачетная книжка</button></li>
+                </ul>
+                <button class="btn-logout" onclick="handleLogout()">Выйти из системы</button>
+            </div>
+        </nav>
+
+        <div class="main-wrapper">
+            <main>
+                <div id="profile" class="tab-content active">
+                    <h2 class="page-title">Личные данные студента</h2>
+                    <div class="info-grid">
+                        <div class="info-label">ФИО:</div>
+                        <div>Васильев Виктор Александрович</div>
+                        <div class="info-label">Группа:</div>
+                        <div>ИнЭИ-16-25</div>
+                        <div class="info-label">Институт:</div>
+                        <div>ИнЭИ (Инженерно-экономический институт)</div>
+                        <div class="info-label">Направление:</div>
+                        <div>10.03.01 Информационная безопасность</div>
+                        <div class="info-label">Номер зачетки:</div>
+                        <div>№ 25-ИнЭИ-1606</div>
+                        <div class="info-label">Форма обучения:</div>
+                        <div>Очная (Бюджет)</div>
+                    </div>
+                </div>
+
+                <div id="grades" class="tab-content">
+                    <h2 class="page-title">Успеваемость по семестрам</h2>
+                    
+                    <div class="semester-selector-wrapper">
+                        <div class="semester-selector">
+                            <button class="sem-btn active" onclick="switchSemester('grades', 1)">1 семестр</button>
+                            <button class="sem-btn" onclick="switchSemester('grades', 2)">2 семестр</button>
+                        </div>
+                        <div class="academic-year">
+                            <select class="year-select" onchange="switchYear(this.value)">
+                                <option value="2020-2021">2020-2021 уч. г.</option>
+                                <option value="2021-2022">2021-2022 уч. г.</option>
+                                <option value="2022-2023">2022-2023 уч. г.</option>
+                                <option value="2023-2024">2023-2024 уч. г.</option>
+                                <option value="2024-2025">2024-2025 уч. г.</option>
+                                <option value="2025-2026" selected>2025-2026 уч. г.</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="grades-empty-msg" class="empty-year-message">Нет информации</div>
+
+                    <div id="grades-container">
+                        <div id="grades-sem-1" class="semester-content active">
+                            <div class="grade-item"><span class="subject-name">Информационные технологии:</span> <span class="raw-grades">5, 5, 4, 5, 4, 5, 5, 3</span></div>
+                            <div class="grade-item"><span class="subject-name">Основы информационной безопасности:</span> <span class="raw-grades">4, 4, 5, 4, 5, 5, 4, 3</span></div>
+                            <div class="grade-item"><span class="subject-name">Физическая культура и спорт (физра):</span> <span class="raw-grades">5, 5, 5, 5, 5, 3</span></div>
+                            <div class="grade-item"><span class="subject-name">Физика:</span> <span class="raw-grades">4, 4, 5, 3, 4, 5, 4, 4, 5, 3</span></div>
+                            <div class="grade-item"><span class="subject-name">Элементы высшей математики:</span> <span class="raw-grades">4, 5, 4, 4, 5, 4, 5, 4</span></div>
+                            <div class="grade-item"><span class="subject-name">Иностранный язык (ин.яз):</span> <span class="raw-grades">5, 4, 5, 5, 4, 3</span></div>
+                            <div class="grade-item"><span class="subject-name">Аппаратные средства вычислительной техники:</span> <span class="raw-grades">4, 4, 5, 4, 5, 5, 4</span></div>
+                            <div class="grade-item"><span class="subject-name">Сети и системы передачи информации:</span> <span class="raw-grades">4, 4, 5, 5, 4, 5, 4, 5, 4, 5, 5, 4, 5</span></div>
+                            <div class="grade-item"><span class="subject-name">Технологии и методы программирования:</span> <span class="raw-grades">5, 5, 4, 5, 5, 4, 5, 5</span></div>
+                            <div class="grade-item"><span class="subject-name">Управление информационной безопасностью:</span> <span class="raw-grades">4, 5, 5, 4, 5, 4, 5, 4</span></div>
+                        </div>
+
+                        <div id="grades-sem-2" class="semester-content">
+                            <div class="grade-item"><span class="subject-name">Информационные технологии:</span> <span class="raw-grades">5, 4, 5, 4, 5, 5, 4, 4, 5, 4, 5, 5, 3</span></div>
+                            <div class="grade-item"><span class="subject-name">Основы информационной безопасности:</span> <span class="raw-grades">4, 5, 4, 4, 5, 4, 5, 5, 4, 4, 5, 4, 3</span></div>
+                            <div class="grade-item"><span class="subject-name">Физическая культура и спорт (физра):</span> <span class="raw-grades">5, 5, 5, 4, 5, 5, 5, 5, 4, 5, 5, 5, 3</span></div>
+                            <div class="grade-item"><span class="subject-name">Дискретная математика:</span> <span class="raw-grades">4, 4, 5, 4, 5, 4, 4, 5, 5, 4, 4, 5, 4</span></div>
+                            <div class="grade-item"><span class="subject-name">Теория вероятностей и математическая статистика (теор.вер):</span> <span class="raw-grades">5, 5, 5, 4, 5, 5, 5, 4, 5, 5, 5, 5, 5</span></div>
+                            <div class="grade-item"><span class="subject-name">Иностранный язык (ин.яз):</span> <span class="raw-grades">4, 5, 4, 5, 4, 5, 5, 4, 5, 4, 4, 5, 3</span></div>
+                            <div class="grade-item"><span class="subject-name">Аппаратные средства вычислительной техники:</span> <span class="raw-grades">4, 5, 4, 4, 5, 5, 4, 4, 5, 4, 5, 4, 5</span></div>
+                            <div class="grade-item"><span class="subject-name">Технологии и методы программирования:</span> <span class="raw-grades">5, 5, 4, 5, 5, 4, 5, 4, 5, 5, 4, 5, 5</span></div>
+                            <div class="grade-item"><span class="subject-name">Управление информационной безопасностью:</span> <span class="raw-grades">4, 5, 4, 5, 4, 4, 5, 5, 4, 5, 4, 5, 4</span></div>
+                            <div class="grade-item"><span class="subject-name">Безопасность жизнедеятельности:</span> <span class="raw-grades">5, 5, 5, 4, 5, 5, 4, 5, 5, 5, 4, 5, 5</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="recordbook" class="tab-content">
+                    <h2 class="page-title">Итоговые оценки (Зачетная книжка)</h2>
+
+                    <div class="semester-selector-wrapper">
+                        <div class="semester-selector">
+                            <button class="sem-btn active" onclick="switchSemester('recordbook', 1)">1 семестр</button>
+                            <button class="sem-btn" onclick="switchSemester('recordbook', 2)">2 семестр</button>
+                        </div>
+                        <div class="academic-year">
+                            <select class="year-select" onchange="switchYear(this.value)">
+                                <option value="2020-2021">2020-2021 уч. г.</option>
+                                <option value="2021-2022">2021-2022 уч. г.</option>
+                                <option value="2022-2023">2022-2023 уч. г.</option>
+                                <option value="2023-2024">2023-2024 уч. г.</option>
+                                <option value="2024-2025">2024-2025 уч. г.</option>
+                                <option value="2025-2026" selected>2025-2026 уч. г.</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="recordbook-empty-msg" class="empty-year-message">Нет информации</div>
+
+                    <div id="recordbook-container">
+                        <div id="recordbook-sem-1" class="semester-content active">
+                            <div class="grade-item"><span class="subject-name">Информационные технологии:</span> <span class="raw-grades">5</span></div>
+                            <div class="grade-item"><span class="subject-name">Основы информационной безопасности:</span> <span class="raw-grades">5</span></div>
+                            <div class="grade-item"><span class="subject-name">Физическая культура и спорт (физра):</span> <span class="raw-grades">зачет</span></div>
+                            <div class="grade-item"><span class="subject-name">Физика:</span> <span class="raw-grades">4</span></div>
+                            <div class="grade-item"><span class="subject-name">Элементы высшей математики:</span> <span class="raw-grades">4</span></div>
+                            <div class="grade-item"><span class="subject-name">Иностранный язык (ин.яз):</span> <span class="raw-grades">5</span></div>
+                            <div class="grade-item"><span class="subject-name">Аппаратные средства вычислительной техники:</span> <span class="raw-grades">зачет</span></div>
+                            <div class="grade-item"><span class="subject-name">Сети и системы передачи информации:</span> <span class="raw-grades">зачет</span></div>
+                            <div class="grade-item"><span class="subject-name">Технологии и методы программирования:</span> <span class="raw-grades">5</span></div>
+                            <div class="grade-item"><span class="subject-name">Управление информационной безопасностью:</span> <span class="raw-grades">зачет</span></div>
+                        </div>
+
+                        <div id="recordbook-sem-2" class="semester-content">
+                            <div class="grade-item"><span class="subject-name">Информационные технологии:</span> <span class="raw-grades">-</span></div>
+                            <div class="grade-item"><span class="subject-name">Основы информационной безопасности:</span> <span class="raw-grades">-</span></div>
+                            <div class="grade-item"><span class="subject-name">Физическая культура и спорт (физра):</span> <span class="raw-grades">зачет</span></div>
+                            <div class="grade-item"><span class="subject-name">Дискретная математика:</span> <span class="raw-grades">4</span></div>
+                            <div class="grade-item"><span class="subject-name">Теория вероятностей и математическая статистика (теор.вер):</span> <span class="raw-grades">4</span></div>
+                            <div class="grade-item"><span class="subject-name">Иностранный язык (ин.яз):</span> <span class="raw-grades">5</span></div>
+                            <div class="grade-item"><span class="subject-name">Аппаратные средства вычислительной техники:</span> <span class="raw-grades">зачет</span></div>
+                            <div class="grade-item"><span class="subject-name">Технологии и методы программирования:</span> <span class="raw-grades">-</span></div>
+                            <div class="grade-item"><span class="subject-name">Управление информационной безопасностью:</span> <span class="raw-grades">зачет</span></div>
+                            <div class="grade-item"><span class="subject-name">Безопасность жизнедеятельности:</span> <span class="raw-grades">зачет</span></div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <footer>
+            &copy; 2021-2026 ФГБОУ ВО «НИУ «МЭИ». Разработано в <a href="https://mpei.ru/Structure/uchchast/icc/Pages/default.aspx" target="_blank">ИВЦ МЭИ</a>
+        </footer>
+    </div>
+
+    <script>
+        // ЛОГИКА АВТОРИЗАЦИИ И ВЫХОДА
+        function handleLogin() {
+            const userInp = document.getElementById('username').value.trim();
+            const passInp = document.getElementById('password').value.trim();
+            const errDiv = document.getElementById('login-error');
+
+            if (userInp === 'viktorvas1606' && passInp === 'Xz54Vmc2Kpq') {
+                errDiv.style.display = 'none';
+                
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('lk-screen').style.display = 'flex';
+                
+                switchTab('profile', 'menu-profile');
+            } else {
+                errDiv.style.display = 'block';
+            }
+        }
+
+        function handleLogout() {
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('login-error').style.display = 'none';
+
+            document.getElementById('lk-screen').style.display = 'none';
+            document.getElementById('login-screen').style.display = 'flex';
+        }
+
+        // ПЕРЕКЛЮЧЕНИЕ ОСНОВНЫХ ВКЛАДОК ЛК
+        function switchTab(tabId, menuId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.menu-tab').forEach(item => item.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            document.getElementById(menuId).classList.add('active');
+        }
+
+        // ПЕРЕКЛЮЧЕНИЕ СЕМЕСТРОВ ВНУТРИ ВКЛАДОК
+        function switchSemester(tabPrefix, semNumber) {
+            const container = document.getElementById(tabPrefix);
+            container.querySelectorAll('.semester-content').forEach(content => content.classList.remove('active'));
+            container.querySelectorAll('.sem-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabPrefix + '-sem-' + semNumber).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        // СИНХРОНИЗАЦИЯ И ДИНАМИЧЕСКОЕ СКРЫТИЕ КОНТЕНТА ПРИ СМЕНЕ ГОДА
+        function switchYear(selectedYear) {
+            // Синхронизируем выбор во всех селекторах
+            document.querySelectorAll('.year-select').forEach(select => {
+                select.value = selectedYear;
+            });
+
+            const gradesContainer = document.getElementById('grades-container');
+            const gradesMsg = document.getElementById('grades-empty-msg');
+            const recordContainer = document.getElementById('recordbook-container');
+            const recordMsg = document.getElementById('recordbook-empty-msg');
+
+            if (selectedYear === '2025-2026') {
+                gradesContainer.style.display = 'block';
+                recordContainer.style.display = 'block';
+                gradesMsg.style.display = 'none';
+                recordMsg.style.display = 'none';
+            } else {
+                gradesContainer.style.display = 'none';
+                recordContainer.style.display = 'none';
+                gradesMsg.style.display = 'block';
+                recordMsg.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
