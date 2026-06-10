@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Электронная информационно-образовательная среда | НИУ "МЭИ"</title>
     
-    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="shortcut icon" type="image/png" href="./favicon.png">
     
     <style>
         :root {
@@ -320,7 +320,6 @@
         .subject-name { font-weight: 600; }
         .raw-grades { font-weight: 500; margin-left: 5px; }
 
-        /* Стиль для сообщения об отсутствии информации */
         .empty-year-message {
             display: none;
             text-align: center;
@@ -352,6 +351,7 @@
         }
 
         footer a { color: #93c5fd; text-decoration: none; font-weight: 600; }
+        .desktop-only { display: inline; } /* По умолчанию длинный хвост виден на ПК */
 
         /* МЕДИАВЫРАЖЕНИЯ ДЛЯ АДАПТИВНОСТИ */
         @media (max-width: 992px) {
@@ -460,6 +460,11 @@
             .login-container {
                 padding: 30px 20px;
             }
+
+            /* СКРЫВАЕМ ХВОСТ ССЫЛКИ НА МОБИЛЬНЫХ УСТРОЙСТВАХ */
+            .desktop-only {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -485,7 +490,7 @@
             <button class="btn-login-submit" onclick="handleLogin()">Войти</button>
             
             <div class="login-footer-text">
-                Если вы забыли пароль или у вас нет учетной записи, обратитесь в <a href="https://mpei.ru/Structure/uchchast/icc/Pages/default.aspx" target="_blank">ИВЦ МЭИ</a>.
+                Если вы забыли пароль или у вас нет учетной записи, обратесь в <a href="https://mpei.ru/Structure/uchchast/icc/Pages/default.aspx" target="_blank">ИВЦ МЭИ</a>.
             </div>
         </div>
     </div>
@@ -525,7 +530,7 @@
                         <div class="info-label">Группа:</div>
                         <div>ИнЭИ-16-25</div>
                         <div class="info-label">Институт:</div>
-                        <div>ИнЭИ (Инженерно-экономический институт)</div>
+                        <div>ИЭ (Инженерно-экономический институт)</div>
                         <div class="info-label">Направление:</div>
                         <div>10.03.01 Информационная безопасность</div>
                         <div class="info-label">Номер зачетки:</div>
@@ -640,7 +645,7 @@
         </div>
 
         <footer>
-            &copy; 2021-2026 ФГБОУ ВО «НИУ «МЭИ». Разработано в <a href="https://mpei.ru/Structure/uchchast/icc/Pages/default.aspx" target="_blank">ИВЦ МЭИ</a>
+            &copy; 2026 ФГБОУ ВО «НИУ «МЭИ». Разработано в <a href="https://mpei.ru/Structure/uchchast/icc/Pages/default.aspx" target="_blank"><span>mpei-profile.github.io</span><span class="desktop-only">/userid-76119124212/</span></a>
         </footer>
     </div>
 
@@ -692,7 +697,6 @@
 
         // СИНХРОНИЗАЦИЯ И ДИНАМИЧЕСКОЕ СКРЫТИЕ КОНТЕНТА ПРИ СМЕНЕ ГОДА
         function switchYear(selectedYear) {
-            // Синхронизируем выбор во всех селекторах
             document.querySelectorAll('.year-select').forEach(select => {
                 select.value = selectedYear;
             });
