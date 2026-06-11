@@ -311,13 +311,13 @@
 
         /* Табличная структура успеваемости с синей верхней линией */
         .grades-table {
-            border-top: 2px solid var(--mpei-blue); /* Верхняя синяя линия над оценками */
+            border-top: 2px solid var(--mpei-blue); 
             display: flex;
             flex-direction: column;
             width: 100%;
         }
 
-        /* Шапка таблицы с одной общей надписью "средняя" */
+        /* Шапка таблицы */
         .grades-header {
             display: flex;
             justify-content: space-between;
@@ -378,7 +378,7 @@
             align-self: stretch;
         }
 
-        /* Блок вывода только цифры балла */
+        /* Блок вывода среднего балла */
         .average-wrapper {
             display: flex;
             align-items: center;
@@ -450,10 +450,6 @@
                 padding-top: 12px;
                 width: 100%;
             }
-            .user-name {
-                font-size: 0.9rem !important;
-                font-weight: 600 !important;
-            }
 
             .nav-container {
                 flex-direction: column;
@@ -523,42 +519,16 @@
                 text-align: center;
             }
 
-            /* Мобильная адаптация */
-            .grades-header {
-                display: none; /* Скрываем десктопную шапку на смартфонах */
-            }
+            /* На телефонах теперь полностью сохраняется ПК-отображение (слева предмет, справа балл) */
             .grade-item {
                 font-size: 0.95rem;
-                flex-direction: column;
-                align-items: flex-start;
             }
             .subject-info {
-                display: flex;
-                flex-direction: column;
-                gap: 4px;
-                width: 100%;
-                padding: 14px 15px 10px 15px;
-            }
-            .raw-grades {
-                margin-left: 0;
-            }
-            .grade-divider {
-                width: 100%;
-                height: 1px; 
+                padding: 12px 10px 12px 10px;
             }
             .average-wrapper {
-                width: 100%;
-                justify-content: flex-start;
-                padding: 10px 15px 14px 15px;
-                min-width: auto;
-            }
-            /* На мобильных возвращаем лаконичную подпись к цифре */
-            .average-wrapper::before {
-                content: "средняя: ";
-                font-size: 0.85rem;
-                color: var(--text-muted);
-                margin-right: 5px;
-                font-weight: 400;
+                min-width: 65px;
+                padding: 12px 0;
             }
             .average-text {
                 font-size: 0.95rem;
@@ -725,27 +695,27 @@
                         <div id="recordbook-sem-1" class="semester-content active">
                             <div class="grade-item"><div class="subject-info"><span class="subject-name">Информационные технологии:</span> <span class="raw-grades">5</span></div></div>
                             <div class="grade-item"><div class="subject-info"><span class="subject-name">Основы информационной безопасности:</span> <span class="raw-grades">5</span></div></div>
-                            <div class="grade-item"><div class="subject-info"><span class="subject-name">Физическая культура и спорт (физра):</span> <span class="raw-grades">5</span></div></div>
+                            <div class="grade-item"><div class="subject-info"><span class="subject-name">Физическая культура и спорт (физра):</span> <span class="raw-grades">зачет</span></div></div>
                             <div class="grade-item"><div class="subject-info"><span class="subject-name">Физика:</span> <span class="raw-grades">4</span></div></div>
                             <div class="grade-item"><div class="subject-info"><span class="subject-name">Элементы высшей математики:</span> <span class="raw-grades">4</span></div></div>
                             <div class="grade-item"><div class="subject-info"><span class="subject-name">Иностранный язык (ин.яз):</span> <span class="raw-grades">5</span></div></div>
-                            <div class="grade-item"><div class="subject-info"><span class="subject-name">Аппаратные средства вычислительной техники:</span> <span class="raw-grades">4</span></div></div>
-                            <div class="grade-item"><div class="subject-info"><span class="subject-name">Сети и системы передачи информации:</span> <span class="raw-grades">4</span></div></div>
+                            <div class="grade-item"><div class="subject-info"><span class="subject-name">Аппаратные средства вычислительной техники:</span> <span class="raw-grades">зачет</span></div></div>
+                            <div class="grade-item"><div class="subject-info"><span class="subject-name">Сети и системы передачи информации:</span> <span class="raw-grades">зачет</span></div></div>
                             <div class="grade-item"><div class="subject-info"><span class="subject-name">Технологии и методы программирования:</span> <span class="raw-grades">5</span></div></div>
-                            <div class="grade-item"><div class="subject-info"><span class="subject-name">Управление информационной безопасностью:</span> <span class="raw-grades">5</span></div></div>
+                            <div class="grade-item"><div class="subject-info"><span class="subject-name">Управление информационной безопасностью:</span> <span class="raw-grades">зачет</span></div></div>
                         </div>
 
                         <div id="recordbook-sem-2" class="semester-content">
                             <div class="grade-item"><div class="subject-info"><span class="subject-name">Информационные технологии:</span> <span class="raw-grades">-</span></div></div>
                             <div class="grade-item"><div class="subject-info"><span class="subject-name">Основы информационной безопасности:</span> <span class="raw-grades">-</span></div></div>
-                            <div class="grade-item"><div class="subject-info"><span class="subject-name">Физическая культура и спорт (физра):</span> <span class="raw-grades">5</span></div></div>
+                            <div class="grade-item"><div class="subject-info"><span class="subject-name">Физическая культура и спорт (физра):</span> <span class="raw-grades">зачет</span></div></div>
                             <div class="grade-item"><div class="subject-info"><span class="subject-name">Дискретная математика:</span> <span class="raw-grades">4</span></div></div>
                             <div class="grade-item"><div class="subject-info"><span class="subject-name">Теория вероятностей и математическая статистика (теор.вер):</span> <span class="raw-grades">4</span></div></div>
                             <div class="grade-item"><div class="subject-info"><span class="subject-name">Иностранный язык (ин.яз):</span> <span class="raw-grades">5</span></div></div>
-                            <div class="grade-item"><div class="subject-info"><span class="subject-name">Аппаратные средства вычислительной техники:</span> <span class="raw-grades">4</span></div></div>
+                            <div class="grade-item"><div class="subject-info"><span class="subject-name">Аппаратные средства вычислительной техники:</span> <span class="raw-grades">зачет</span></div></div>
                             <div class="grade-item"><div class="subject-info"><span class="subject-name">Технологии и методы программирования:</span> <span class="raw-grades">-</span></div></div>
-                            <div class="grade-item"><div class="subject-info"><span class="subject-name">Управление информационной безопасностью:</span> <span class="raw-grades">4</span></div></div>
-                            <div class="grade-item"><div class="subject-info"><span class="subject-name">Безопасность жизнедеятельности:</span> <span class="raw-grades">5</span></div></div>
+                            <div class="grade-item"><div class="subject-info"><span class="subject-name">Управление информационной безопасностью:</span> <span class="raw-grades">зачет</span></div></div>
+                            <div class="grade-item"><div class="subject-info"><span class="subject-name">Безопасность жизнедеятельности:</span> <span class="raw-grades">зачет</span></div></div>
                         </div>
                     </div>
                 </div>
@@ -760,7 +730,6 @@
     <script>
         // ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ СТРАНИЦЫ
         function initApp() {
-            // Проверяем текущий выбранный год во всех селекторах (по дефолту стоит 2025-2026)
             const defaultYear = document.querySelector('.year-select').value;
             switchYear(defaultYear);
         }
