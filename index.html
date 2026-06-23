@@ -101,6 +101,30 @@
             border-color: var(--mpei-blue);
         }
 
+        /* Стиль для чекбокса Запомнить меня */
+        .remember-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            text-align: left;
+            user-select: none;
+        }
+
+        .remember-group input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: var(--mpei-blue);
+        }
+
+        .remember-group label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-weight: 500;
+        }
+
         .error-message {
             color: var(--mpei-red);
             font-size: 0.85rem;
@@ -175,7 +199,9 @@
 
         .user-name { font-weight: 600; color: var(--mpei-blue); }
         .user-group { color: var(--text-muted); margin-top: 2px; }
-        .main-nav { background-color: var(--mpei-blue); }
+        
+        /* Панель навигации */
+        .main-nav { background-color: var(--mpei-blue); position: relative; }
 
         .nav-container {
             max-width: 1200px;
@@ -224,6 +250,36 @@
             background: #ffffff;
             color: var(--mpei-blue);
             border-color: #ffffff;
+        }
+
+        /* Кнопка "Гамбургер" */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 12px;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: #ffffff;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .menu-toggle.open span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .menu-toggle.open span:nth-child(2) {
+            opacity: 0;
+        }
+        .menu-toggle.open span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
         }
 
         .main-wrapper {
@@ -305,7 +361,7 @@
         .semester-content { display: none; }
         .semester-content.active { display: block; }
 
-        /* Табличная структура успеваемости с синей верхней линией */
+        /* Табличная структура успеваемости */
         .grades-table {
             border-top: 2px solid var(--mpei-blue); 
             display: flex;
@@ -313,18 +369,44 @@
             width: 100%;
         }
 
-        /* Шапка таблицы */
-        .grades-header {
+        /* Строки таблицы */
+        .grades-header, .grade-item {
             display: flex;
             justify-content: space-between;
             align-items: stretch;
+        }
+
+        .grades-header {
             background-color: var(--mpei-gray-bg);
             border-bottom: 1px solid var(--border-color);
         }
 
+        .grade-item {
+            font-size: 1.05rem; 
+            border-bottom: 1px solid var(--border-color); 
+            color: var(--text-black);
+            line-height: 1.5;
+        }
+
+        .grade-item:last-child { border-bottom: none; }
+
+        /* Внутренняя сетка левой части */
+        .header-subject-wrap, .subject-info { 
+            flex: 1; 
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            align-items: center; 
+        }
+
+        .header-subject-wrap {
+            padding: 10px 20px 10px 15px;
+        }
+
+        .subject-info { 
+            padding: 14px 20px 14px 15px;
+        }
+        
         .header-subject {
-            flex: 1;
-            padding: 10px 0 10px 15px;
             font-size: 0.85rem;
             font-weight: 600;
             color: var(--text-muted);
@@ -332,39 +414,7 @@
             letter-spacing: 0.5px;
         }
 
-        .header-average {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 90px;
-            padding: 10px 0;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: lowercase;
-        }
-
-        /* Строки с оценками */
-        .grade-item {
-            font-size: 1.05rem; 
-            border-bottom: 1px solid var(--border-color); 
-            color: var(--text-black);
-            line-height: 1.5;
-            display: flex;
-            justify-content: space-between;
-            align-items: stretch; 
-        }
-
-        .grade-item:last-child { border-bottom: none; }
-        
-        .subject-info { 
-            flex: 1; 
-            display: flex; 
-            align-items: center; 
-            padding: 14px 20px 14px 15px;
-        }
-        
-        .subject-name { font-weight: 600; }
+        .subject-name { font-size: 0.95rem; font-weight: 600; }
         .raw-grades { font-weight: 500; margin-left: 5px; }
         
         /* Сплошной разделитель колонок */
@@ -374,12 +424,23 @@
             align-self: stretch;
         }
 
-        /* Блок вывода среднего балла */
-        .average-wrapper {
+        /* Правая часть (средний балл) */
+        .header-average, .average-wrapper {
             display: flex;
             align-items: center;
             justify-content: center;
             min-width: 90px;
+        }
+
+        .header-average {
+            padding: 10px 0;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: lowercase;
+        }
+
+        .average-wrapper {
             padding: 14px 0;
         }
 
@@ -410,6 +471,20 @@
             margin-top: 20px;
         }
         .info-label { font-weight: 600; color: var(--text-muted); }
+        
+        .download-link {
+            color: var(--mpei-blue);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+        .download-link:hover {
+            color: var(--mpei-red);
+            text-decoration: underline;
+        }
 
         footer {
             background-color: var(--mpei-blue);
@@ -429,6 +504,7 @@
             .main-wrapper { padding: 0 20px; margin: 20px auto; }
             main { padding: 25px; }
             .info-grid { grid-template-columns: 180px 1fr; gap: 14px; }
+            .header-subject-wrap, .subject-info { grid-template-columns: 280px 1fr; }
         }
 
         @media (max-width: 640px) {
@@ -447,29 +523,53 @@
                 width: 100%;
             }
 
+            /* Мобильная навигация */
             .nav-container {
                 flex-direction: column;
-                padding: 10px;
-                gap: 10px;
+                align-items: stretch;
+                padding: 0;
+                gap: 0;
             }
+            
+            .menu-toggle {
+                display: flex;
+                align-self: flex-start;
+                margin: 5px 15px;
+            }
+
             .nav-links {
+                display: none;
                 width: 100%;
                 flex-direction: column;
-                gap: 5px;
+                background-color: #00427c;
+                border-top: 1px solid rgba(255,255,255,0.1);
             }
+
+            .nav-links.open {
+                display: flex;
+            }
+
             .nav-links button {
                 width: 100%;
-                text-align: center;
-                padding: 12px;
-                border-radius: 4px;
+                text-align: left;
+                padding: 14px 20px;
+                border-bottom: 1px solid rgba(255,255,255,0.05);
             }
             .nav-links li.active button {
                 box-shadow: inset 4px 0 0 #ffffff; 
+                background-color: rgba(0, 0, 0, 0.15);
             }
+            
             .btn-logout {
-                width: 100%;
+                width: calc(100% - 30px);
+                margin: 12px 15px;
                 padding: 12px;
                 text-align: center;
+                display: none;
+            }
+
+            .nav-links.open + .btn-logout {
+                display: block;
             }
 
             main { padding: 20px 15px; }
@@ -515,15 +615,25 @@
                 text-align: center;
             }
 
-            /* На телефонах теперь полностью сохраняется ПК-отображение (слева предмет, справа балл) */
             .grade-item {
                 font-size: 0.95rem;
+            }
+            .header-subject-wrap, .subject-info {
+                grid-template-columns: 185px 1fr;
+            }
+            .header-subject-wrap {
+                padding: 10px 10px 10px 10px;
             }
             .subject-info {
                 padding: 12px 10px 12px 10px;
             }
-            .average-wrapper {
+            .header-average, .average-wrapper {
                 min-width: 65px;
+            }
+            .header-average {
+                padding: 10px 0;
+            }
+            .average-wrapper {
                 padding: 12px 0;
             }
             .average-text {
@@ -554,6 +664,11 @@
                 <label for="password">Пароль</label>
                 <input type="password" id="password" placeholder="Введите ваш пароль">
             </div>
+
+            <div class="remember-group">
+                <input type="checkbox" id="remember-me">
+                <label for="remember-me">Запомнить меня</label>
+            </div>
             
             <button class="btn-login-submit" onclick="handleLogin()">Войти</button>
             
@@ -579,7 +694,13 @@
 
         <nav class="main-nav">
             <div class="nav-container">
-                <ul class="nav-links">
+                <button class="menu-toggle" id="menuToggle" onclick="toggleMobileMenu()" aria-label="Открыть меню">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+                <ul class="nav-links" id="navLinks">
                     <li id="menu-profile" class="menu-tab active"><button onclick="switchTab('profile', 'menu-profile')">Личные данные</button></li>
                     <li id="menu-grades" class="menu-tab"><button onclick="switchTab('grades', 'menu-grades')">Оценки по предметам</button></li>
                     <li id="menu-recordbook" class="menu-tab"><button onclick="switchTab('recordbook', 'menu-recordbook')">Зачетная книжка</button></li>
@@ -605,6 +726,12 @@
                         <div>№ 25-ИнЭИ-1606</div>
                         <div class="info-label">Форма обучения:</div>
                         <div>Очная (Бюджет)</div>
+                        <div class="info-label">Документы:</div>
+                        <div>
+                            <a href="./13758246293947.pdf" download="Студенческий_билет_Васильев.pdf" class="download-link">
+                                📄 Студенческий билет
+                            </a>
+                        </div>
                     </div>
                 </div>
 
@@ -632,7 +759,9 @@
 
                     <div id="grades-container" class="grades-table">
                         <div class="grades-header">
-                            <div class="header-subject">Дисциплина / Оценки</div>
+                            <div class="header-subject-wrap">
+                                <div class="header-subject">Дисциплина / Оценки</div>
+                            </div>
                             <div class="grade-divider"></div>
                             <div class="header-average">средняя</div>
                         </div>
@@ -728,33 +857,87 @@
         function initApp() {
             const defaultYear = document.querySelector('.year-select').value;
             switchYear(defaultYear);
+
+            // Проверяем, сохранены ли данные в localStorage
+            const savedUser = localStorage.getItem('mpei_username');
+            const savedPass = localStorage.getItem('mpei_password');
+
+            if (savedUser && savedPass) {
+                // Подставляем сохраненные значения в инпуты
+                document.getElementById('username').value = savedUser;
+                document.getElementById('password').value = savedPass;
+                document.getElementById('remember-me').checked = true;
+
+                // Автоматически входим, чтобы пользователю вообще ничего не нужно было нажимать
+                executeLogin(savedUser, savedPass);
+            }
         }
 
-        // ЛОГИКА АВТОРИЗАЦИИ И ВЫХОДА
+        // ЛОГИКА МОБИЛЬНОГО МЕНЮ
+        function toggleMobileMenu() {
+            const toggleBtn = document.getElementById('menuToggle');
+            const navLinks = document.getElementById('navLinks');
+            
+            toggleBtn.classList.toggle('open');
+            navLinks.classList.toggle('open');
+        }
+
+        function closeMobileMenu() {
+            const toggleBtn = document.getElementById('menuToggle');
+            const navLinks = document.getElementById('navLinks');
+            
+            toggleBtn.classList.remove('open');
+            navLinks.classList.remove('open');
+        }
+
+        // ОСНОВНАЯ ФУНКЦИЯ ДЛЯ ВХОДА С ПРОВЕРКОЙ
         function handleLogin() {
             const userInp = document.getElementById('username').value.trim();
             const passInp = document.getElementById('password').value.trim();
+            const rememberMe = document.getElementById('remember-me').checked;
             const errDiv = document.getElementById('login-error');
 
             if (userInp === 'viktorvas1606' && passInp === 'Xz54Vmc2Kpq') {
                 errDiv.style.display = 'none';
+
+                // Если галочка стоит — запоминаем данные
+                if (rememberMe) {
+                    localStorage.setItem('mpei_username', userInp);
+                    localStorage.setItem('mpei_password', passInp);
+                } else {
+                    // Если галочку сняли — удаляем данные из памяти
+                    localStorage.removeItem('mpei_username');
+                    localStorage.removeItem('mpei_password');
+                }
                 
-                document.getElementById('login-screen').style.display = 'none';
-                document.getElementById('lk-screen').style.display = 'flex';
-                
-                switchTab('profile', 'menu-profile');
+                executeLogin(userInp, passInp);
             } else {
                 errDiv.style.display = 'block';
             }
         }
 
+        // Вспомогательная функция переключения экранов при успешном входе
+        function executeLogin(username, password) {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('lk-screen').style.display = 'flex';
+            switchTab('profile', 'menu-profile');
+        }
+
+        // ЛОГИКА ВЫХОДА ИЗ СИСТЕМЫ
         function handleLogout() {
+            // При ручном выходе очищаем сохраненный пароль и логин, чтобы при обновлении страницы 
+            // она снова не вошла автоматически (стандартное поведение безопасности)
+            localStorage.removeItem('mpei_username');
+            localStorage.removeItem('mpei_password');
+
             document.getElementById('username').value = '';
             document.getElementById('password').value = '';
+            document.getElementById('remember-me').checked = false;
             document.getElementById('login-error').style.display = 'none';
 
             document.getElementById('lk-screen').style.display = 'none';
             document.getElementById('login-screen').style.display = 'flex';
+            closeMobileMenu();
         }
 
         // ПЕРЕКЛЮЧЕНИЕ ОСНОВНЫХ ВКЛАДОК ЛК
@@ -763,6 +946,8 @@
             document.querySelectorAll('.menu-tab').forEach(item => item.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
             document.getElementById(menuId).classList.add('active');
+            
+            closeMobileMenu();
         }
 
         // ПЕРЕКЛЮЧЕНИЕ СЕМЕСТРОВ ВНУТРИ ВКЛАДОК
